@@ -1,17 +1,15 @@
-.navbar.navbar-default.navbar-fixed-top
+nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top
   .container
-    .navbar-header
-      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      a.navbar-brand(href='/')
-        i.fa.fa-cube
-        | SalesforceSaturday Tokyo
+    a.navbar-brand(href='/')
+      i.fa.fa-cube
+      | Salesforce Saturday Tokyo
+    button.navbar-toggler(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+      span.navbar-toggler-icon
+
     .collapse.navbar-collapse
-      ul.nav.navbar-nav
-        li(class=(title == 'Home') ? 'active' : undefined)
-          a(href='/') Home
-        li(class=(title == 'Contact') ? 'active' : undefined)
-          a(href='https://twitter.com/messages/compose?recipient_id=SFSatTokyo') Contact
+      .dropdown-divider
+      ul.nav.navbar-nav.mr-auto
+        li.nav-item(class=(title === 'Home') ? 'active' : undefined)
+          a.nav-link(href='/') Home
+        li.nav-item(class=(title === 'Contact') ? 'active' : undefined)
+          a.nav-link(href='https://twitter.com/messages/compose?recipient_id=SFSatTokyo') Contact

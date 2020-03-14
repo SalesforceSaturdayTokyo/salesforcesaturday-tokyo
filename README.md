@@ -1,6 +1,6 @@
-# SalesforceSaturday Tokyo
+# Salesforce Saturday Tokyo
 
-This is a Heroku application for the homepage of SalesforceSaturday Tokyo.
+This is a Heroku application for the homepage of Salesforce Saturday Tokyo.
 
 # Acknowledgement
 
