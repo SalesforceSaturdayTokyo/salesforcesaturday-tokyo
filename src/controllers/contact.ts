@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
-import { Request, Response } from "express";
+import {Request, Response} from "express";
+import {check, validationResult} from "express-validator";
 
 const transporter = nodemailer.createTransport({
   service: "SendGrid",
@@ -13,7 +14,7 @@ const transporter = nodemailer.createTransport({
  * GET /contact
  * Contact form page.
  */
-export let getContact = (req: Request, res: Response) => {
+export const getContact = (req: Request, res: Response) => {
   res.render("contact", {
     title: "Contact"
   });
@@ -23,15 +24,23 @@ export let getContact = (req: Request, res: Response) => {
  * POST /contact
  * Send a contact form via Nodemailer.
  */
-export let postContact = (req: Request, res: Response) => {
-  req.assert("name", "Name cannot be blank").notEmpty();
-  req.assert("email", "Email is not valid").isEmail();
-  req.assert("message", "Message cannot be blank").notEmpty();
+export const postContact = async (req: Request, res: Response) => {
+  await check("name", "Name cannot be blank")
+    .not()
+    .isEmpty()
+    .run(req);
+  await check("email", "Email is not valid")
+    .isEmail()
+    .run(req);
+  await check("message", "Message cannot be blank")
+    .not()
+    .isEmpty()
+    .run(req);
 
-  const errors = req.validationErrors();
+  const errors = validationResult(req);
 
-  if (errors) {
-    req.flash("errors", errors);
+  if (!errors.isEmpty()) {
+    req.flash("errors", errors.array());
     return res.redirect("/contact");
   }
 
@@ -44,10 +53,10 @@ export let postContact = (req: Request, res: Response) => {
 
   transporter.sendMail(mailOptions, (err) => {
     if (err) {
-      req.flash("errors", { msg: err.message });
+      req.flash("errors", {msg: err.message});
       return res.redirect("/contact");
     }
-    req.flash("success", { msg: "Email has been sent successfully!" });
+    req.flash("success", {msg: "Email has been sent successfully!"});
     res.redirect("/contact");
   });
 };
